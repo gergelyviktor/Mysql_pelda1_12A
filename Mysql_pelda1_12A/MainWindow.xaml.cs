@@ -19,34 +19,39 @@ namespace Mysql_pelda1_12A {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    public class Datagridhez {
+        public int Helyezes { get; set; }
+        public string Cim { get; set; }
+        public string Nev { get; set; }
+        public string Nemzetiseg { get; set; }
+        public Datagridhez(int helyezes, string cim, string nev, string nemzetiseg) {
+            Helyezes = helyezes;
+            Cim = cim;
+            Nev = nev;
+            Nemzetiseg = nemzetiseg;
+        }
+    }
     public partial class MainWindow : Window {
 
         List<Konyv> konyvek = new List<Konyv>();
         List<Szerzo> szerzok = new List<Szerzo>();
+        List<Datagridhez> datagridhez = new List<Datagridhez>();
+
         string kapcsolatistring = "server = localhost;database = konyvek_12a; uid = root; password = '';";
         MySqlConnection kapcs;
         public MainWindow() {
             InitializeComponent();
             kapcs = new MySqlConnection(kapcsolatistring);
             kapcs.Open();
-            var sql = "SELECT * FROM konyv";
+            var sql = "SELECT helyezes, cim, nev, nemzetiseg FROM konyv,szerzo WHERE konyv.szerzoId = szerzo.id";
             var parancs = new MySqlCommand(sql, kapcs);
             var lekerdezes = parancs.ExecuteReader();
             while (lekerdezes.Read()) {
-                // A)
-                //var temp = new Konyv();
-                //temp.Id = (int)lekerdezes[0];
-                //temp.Cim = (string)lekerdezes[1];
-                //temp.SzerzoId = (int)lekerdezes[2];
-                //temp.Helyezes = (int)lekerdezes[3];
-                // B)
-                var temp = new Konyv((int)lekerdezes[0], (string)lekerdezes[1], (int)lekerdezes[2], (int)lekerdezes[3]);
-                // C)
-                //var temp = new Konyv(lekerdezes.GetInt16(0), lekerdezes.GetString(1), lekerdezes.GetInt16(2), lekerdezes.GetInt16(3));
-                konyvek.Add(temp);
+                var temp = new Datagridhez((int)lekerdezes[0], (string)lekerdezes[1], (string)lekerdezes[2], (string)lekerdezes[3]);
+                datagridhez.Add(temp);
             }
             kapcs.Close();
-            dtgLista.ItemsSource = konyvek;
+            dtgLista.ItemsSource = datagridhez;
         }
     }
 }
