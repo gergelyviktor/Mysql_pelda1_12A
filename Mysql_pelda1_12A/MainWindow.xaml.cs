@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,8 +24,11 @@ namespace Mysql_pelda1_12A {
         List<Konyv> konyvek = new List<Konyv>();
         List<Szerzo> szerzok = new List<Szerzo>();
         string kapcsolatistring = "server = localhost;database = konyvek_12a; uid = root; password = '';";
+        MySqlConnection kapcs;
         public MainWindow() {
             InitializeComponent();
+            kapcs = new MySqlConnection(kapcsolatistring);
+            kapcs.Open();
         }
     }
 }
