@@ -48,5 +48,13 @@ namespace Mysql_pelda1_12A {
             kapcs.Close();
             dtgLista.ItemsSource = konyvek;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e) {
+            //var rendezett = konyvek.OrderBy(item => item.Cim); //LINQ
+            //var rendezett = konyvek.OrderByDescending(item => item.Cim);
+            var rendezett = konyvek.OrderBy(item => item.SzerzoId).ThenBy(item => item.Cim);
+
+            dtgLista.ItemsSource = rendezett;
+        }
     }
 }
